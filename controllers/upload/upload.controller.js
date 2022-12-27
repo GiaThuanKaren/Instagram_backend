@@ -1,11 +1,8 @@
-const UploadController  ={
-    uploadSingleFile :async function(req,res,next){
+const UploadController = {
+  uploadSingleFile: async function (req, res, next) {
+    
+  },
+  uploadMultipleFile: async function (req, res, next) {},
+};
 
-    },
-    uploadMultipleFile :async function(req,res,next){
-        
-    }
-}
-
-
-module.exports = UploadController
+module.exports = UploadController;
