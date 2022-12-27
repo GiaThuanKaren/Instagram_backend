@@ -43,8 +43,16 @@ const AuthController = {
 
     if (!CheckUser)
       return res.json(
-        MSG("Not Found Account By This Gmail/Email", "", "", "NO")
+        MSG(
+          "Not Found Account By This Gmail/Email, Please Regist",
+          "",
+          "",
+          "NO"
+        )
       );
+    if (CheckUser.data.password != BodyReq.password)
+      return res.json(MSG("Password is not correct", "", "", "NO"));
+
     console.log(CheckUser, "123123");
     const IdNewFolder = await CreateNewFolder(CheckUser.data.UserName);
     console.log(IdNewFolder.data);
