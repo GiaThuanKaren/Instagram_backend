@@ -1,8 +1,9 @@
-const MSG = function (msg, others = null, data = null) {
+const MSG = function (msg, others = null, data = null,status="OK") {
   return {
     msg,
     others,
     data,
+    status
   };
 };
 

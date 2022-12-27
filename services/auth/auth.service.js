@@ -19,19 +19,33 @@ const InsertUser = async function (
     return MSG("Succesfully", null, null);
   } catch (e) {
     console.log(e);
-    return MSG("Failed", null, null);
+    return MSG("Failed", null, null, "NO");
   }
 };
 
 const UpdateUser = async function (Condition, Data) {
   try {
-    await User.findOneAndUpdate(Condition, {
-      $set: Data,
+    const result = await User.findOneAndUpdate(Condition, Data, {
+      new: true,
     });
-    return MSG("Succesfully", null, null);
+    console.log(result, "Updated");
+    return MSG("Succesfully", null, result);
   } catch (e) {
     console.log(e);
-    return MSG("Failed", null, null);
+    return MSG("Failed", null, null, "NO");
   }
 };
-module.exports = { InsertUser, UpdateUser };
+
+const FindOneUser = async function (condition) {
+  try {
+    const UserFound = await User.findOne(condition);
+    console.log(UserFound);
+    if (UserFound) return MSG("Founded", "", UserFound, "OK");
+    else return MSG(" Not Found", "", null, "NO");
+  } catch (e) {
+    console.log("Error to find User");
+    return MSG("Failed", null, null, "NO");
+  }
+};
+
+module.exports = { InsertUser, UpdateUser, FindOneUser };
