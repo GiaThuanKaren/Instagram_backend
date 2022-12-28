@@ -17,6 +17,6 @@ router.post(
   upload.single("tenfile"),
   UploadController.uploadSingleFile
 );
-router.post("/upload_multi", UploadController.uploadMultipleFile);
+router.post("/upload_multi",upload.array("tenfile"), UploadController.uploadMultipleFile);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const MSG = require("../../utils/constant");
 const User = require("../../models/User");
 
 const InsertUser = async function (
-  UserName,
+  UserName = `Default_name_${Date.now()}`,
   email,
   foldername,
   password,

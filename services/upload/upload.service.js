@@ -1,6 +1,7 @@
 const multer = require("multer");
 const express = require("express");
 const { google } = require("googleapis");
+require("dotenv").config();
 var fs = require("fs");
 const { Readable } = require("stream");
 const MSG = require("../../utils/constant");
@@ -50,8 +51,9 @@ const UploadFileSingleFile = async function (
 
   try {
     let respone = await task;
-    return MSG("Upload File Succesfully", null, respone, "OK");
+    return MSG("Upload File Succesfully", null, respone.data.id, "OK");
   } catch (e) {
+    console.log(e);
     return MSG("Failed To Upload File ", "", "", "NO");
   }
 };
@@ -75,4 +77,39 @@ const CreateNewFolder = async function (NameFolder) {
   }
 };
 
-module.exports = { UploadFileSingleFile, CreateNewFolder };
+const uploadMultipleFile = async function (PathArrImageOrBuffer, IdFolder) {
+  const driveService = google.drive({ version: "v3", auth });
+  const ArrIdFielUploaded = [];
+  for (let i of PathArrImageOrBuffer) {
+    let fileMetadata = {
+      name: i.name,
+      parents: [IdFolder], //Optional and make sure to replace with your folder id.
+    };
+    let media = {
+      mimeType: i.mimetype,
+      // body: fs.createReadStream(`images/${file}`),
+      // body: fs.createReadStream(PathImage),
+      body: BufferToStream(i.buffer),
+    };
+
+    const task = driveService.files.create({
+      resource: fileMetadata,
+      media: media,
+      fields: "id",
+      // requestBody:{
+      //   role:'reader',
+      //   type:'anyone'
+      // }
+    });
+
+    try {
+      let respone = await task;
+      ArrIdFielUploaded.push(respone.data.id);
+    } catch (e) {
+      return MSG("Failed To Upload File ", "", "", "NO");
+    }
+  }
+  return MSG("Upload File Succesfully", null, ArrIdFielUploaded, "OK");
+};
+
+module.exports = { UploadFileSingleFile, CreateNewFolder, uploadMultipleFile };

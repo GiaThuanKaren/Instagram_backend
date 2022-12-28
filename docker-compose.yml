@@ -1,0 +1,7 @@
+version: '1.0'
+services:
+  insta_be:
+    build: "./"
+    container_name: "insta_be"
+    ports:
+      - 5000:5000

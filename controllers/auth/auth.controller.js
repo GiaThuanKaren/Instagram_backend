@@ -14,7 +14,6 @@ const AuthController = {
       email: BodyReq.email.toLowerCase(),
     });
 
-    if (CheckUser) return res.json(MSG("Email Duplicated", "", "", "NO"));
     // Inser new user
     const NewUserModel = {
       UserName: BodyReq.UserName,
