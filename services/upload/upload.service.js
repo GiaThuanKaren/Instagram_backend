@@ -112,4 +112,22 @@ const uploadMultipleFile = async function (PathArrImageOrBuffer, IdFolder) {
   return MSG("Upload File Succesfully", null, ArrIdFielUploaded, "OK");
 };
 
-module.exports = { UploadFileSingleFile, CreateNewFolder, uploadMultipleFile };
+const DeleteFile = async function (IdFile) {
+  try {
+    
+    const driveService = google.drive({ version: "v3", auth });
+    await driveService.files.delete({
+      fileId: IdFile,
+    });
+    return MSG("Delete Sucessfully");
+  } catch (e) {
+    throw e;
+  }
+};
+
+module.exports = {
+  DeleteFile,
+  UploadFileSingleFile,
+  CreateNewFolder,
+  uploadMultipleFile,
+};

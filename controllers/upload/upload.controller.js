@@ -1,6 +1,7 @@
 const { FindOneUser } = require("../../services/auth/auth.service");
 const {
-  UploadFileSingleFile, uploadMultipleFile,
+  UploadFileSingleFile,
+  uploadMultipleFile,
 } = require("../../services/upload/upload.service");
 
 const UploadController = {
@@ -22,22 +23,22 @@ const UploadController = {
   },
   uploadMultipleFile: async function (req, res, next) {
     console.log(req.files);
-     const UserFound = await FindOneUser({
+    const UserFound = await FindOneUser({
       email: req.body.email,
     });
     const Files = req.files;
-    
+
     const ArrBuffer = Files.map((item, index) => {
       return {
-        buffer:item.buffer,
-        mimetype:item.mimetype,
-        name:item.originalname
+        buffer: item.buffer,
+        mimetype: item.mimetype,
+        name: item.originalname,
       };
     });
     console.log(ArrBuffer);
-    const result = await  uploadMultipleFile(ArrBuffer,UserFound.data.folderId)
+    const result = await uploadMultipleFile(ArrBuffer, UserFound.data.folderId);
     // res.json(ArrBuffer);
-    res.json(result)
+    res.json(result);
   },
 };
 
