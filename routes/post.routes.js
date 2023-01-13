@@ -21,4 +21,10 @@ route.post(
 
 route.post("/del_user_post", PostController.deleteUserPost);
 
+route.post(
+  "/update_user_post",
+  upload.array("media"),
+  PostController.updateUserPost
+);
+
 module.exports = { route };

@@ -24,7 +24,60 @@ const createNewPost = async function (
   }
 };
 
-const updateUserPost = async function () {};
+const UpdateMediaUserPost = async function (ArrayMedia) {
+  try {
+  } catch (e) {
+    throw e;
+  }
+};
+const updateUserPost = async function (
+  IdPost,
+  description,
+  ArrayMedia = [],
+  OldMedia = []
+) {
+  try {
+    let MediaUpdated = [];
+    console.log(IdPost, description, ArrayMedia);
+    if (ArrayMedia.length > 0) {
+      // Xoa cac file anh ,video cu
+      // const OldPost = await Post.findById(IdPost);
+      // const OldMedia = OldPost.media;
+      // if (OldMedia.length > 0) {
+      //   OldMedia.forEach(async (item, index) => {
+      //     await DeleteFile(item);
+      //   });
+      // }
+      OldMedia.forEach(async (item, index) => {
+        await DeleteFile(item);
+      });
+      let FilesUpdated= await uploadMultipleFile(ArrayMedia, "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4");
+      let PostUpdated = await Post.findByIdAndUpdate(
+        IdPost,
+        {
+          descripttion: description,
+          media: FilesUpdated.data,
+        },
+        {
+          new: true,
+        }
+      );
+      return MSG("Updated Post Sucessfully", PostUpdated);
+    }
+    let PostUpdated = await Post.findByIdAndUpdate(
+      IdPost,
+      {
+        descripttion: description,
+      },
+      {
+        new: true,
+      }
+    );
+    return MSG("Updated Post Sucessfully", PostUpdated);
+  } catch (e) {
+    throw e;
+  }
+};
 
 const delteUserPost = async function (IDPost) {
   try {
