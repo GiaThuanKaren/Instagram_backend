@@ -114,7 +114,6 @@ const uploadMultipleFile = async function (PathArrImageOrBuffer, IdFolder) {
 
 const DeleteFile = async function (IdFile) {
   try {
-    
     const driveService = google.drive({ version: "v3", auth });
     await driveService.files.delete({
       fileId: IdFile,

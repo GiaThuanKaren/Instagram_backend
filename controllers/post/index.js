@@ -40,6 +40,7 @@ const PostController = {
       let result = await delteUserPost(IdFile);
       res.json(MSG(result.msg));
     } catch (e) {
+      console.log(e)
       res.json(MSG("Failed To Delete This Post , Please Try Again "));
     }
   },

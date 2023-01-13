@@ -29,6 +29,8 @@ const updateUserPost = async function () {};
 const delteUserPost = async function (IDPost) {
   try {
     let PostFound = await Post.findById(IDPost);
+
+    console.log(PostFound, IDPost);
     PostFound.media.forEach(async (item) => {
       await DeleteFile(item);
     });
