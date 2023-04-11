@@ -17,6 +17,13 @@ router.post(
   upload.single("tenfile"),
   UploadController.uploadSingleFile
 );
-router.post("/upload_multi",upload.array("tenfile"), UploadController.uploadMultipleFile);
+router.post("/upload_multi", upload.array("tenfile"), UploadController.uploadMultipleFile);
+
+router.post("/testfile", upload.any(), (req, res, ext) => {
+  console.log(req.files)
+  return res.json("khsdklfhklsdhfkh1123")
+})
+// router.post("/uploadfile_withoutcreadential",upload.single("tenfile")Upload)
+
 
 module.exports = router;

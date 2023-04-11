@@ -7,11 +7,14 @@ const MSG = require("../../utils/constant");
 
 const PostController = {
   createNewPost: async function (req, res, next) {
-    const BodyClient = req.body;
 
+    const BodyClient = req.body;
     try {
       const ListFiles = req.files;
       console.log(ListFiles);
+      if (!ListFiles) {
+        return res.json(MSG("Failed To Create Post . Updload File Failed"));
+      }
 
       const ArrBuffer = ListFiles?.map((item, index) => {
         return {
@@ -23,9 +26,9 @@ const PostController = {
       let result = await createNewPost(
         BodyClient["description"],
         ArrBuffer,
-        BodyClient["IdFolderDrive"]
+        "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4"
       );
-      res.json(MSG(result.msg));
+      res.json(result);
     } catch (e) {
       res.json(MSG("Failed To Create Post"));
     }

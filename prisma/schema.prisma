@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+// "mongodb+srv://instagram:giathuan123456@cluster0.a6cyoli.mongodb.net/instagram?retryWrites=true&w=majority"
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                  String @id @default(auto()) @map("_id") @db.ObjectId
+  access_token        String
+  expires_at          BigInt
+  id_token            String
+  provider            String
+  provider_account_id String
+  scope               String
+  token_type          String
+  type                String
+  user_id             String
+
+  @@unique([provider, provider_account_id])
+}
+
+model Session {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  expires       DateTime @db.Date
+  session_token String   @unique
+  user_id       String
+}
+
+model User {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  email          String @unique
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  email_verified Json?
+  image          String
+  name           String
+}
+
+model VerificationToken {
+  /// Field referred in an index, but found no data to define the type.
+  id    Json?  @id @map("_id")
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  token Json?
+
+  @@unique([id, token])
+}
+
+model fd {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model posts {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}

@@ -5,5 +5,5 @@ const UploadRoute = require("./upload.routes");
 const PostRoute = require("./post.routes");
 V1Routes.use("/auth", AuthRoute.route);
 V1Routes.use("/upload", UploadRoute);
-V1Routes.use("/post", PostRoute.route);
+V1Routes.use("/post", PostRoute);
 module.exports = { V1Routes };

@@ -27,4 +27,4 @@ route.post(
   PostController.updateUserPost
 );
 
-module.exports = { route };
+module.exports = route;

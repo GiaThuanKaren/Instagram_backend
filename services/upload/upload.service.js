@@ -47,10 +47,20 @@ const UploadFileSingleFile = async function (
     //   role:'reader',
     //   type:'anyone'
     // }
+  }, {
+    onUploadProgress: function (e) {
+
+      process.stdout.clearLine();
+      process.stdout.cursorTo(0);
+      process.stdout.write(e.bytesRead.toString());
+    },
+
   });
 
   try {
+
     let respone = await task;
+
     return MSG("Upload File Succesfully", null, respone.data.id, "OK");
   } catch (e) {
     console.log(e);
@@ -80,6 +90,7 @@ const CreateNewFolder = async function (NameFolder) {
 const uploadMultipleFile = async function (PathArrImageOrBuffer, IdFolder) {
   const driveService = google.drive({ version: "v3", auth });
   const ArrIdFielUploaded = [];
+
   for (let i of PathArrImageOrBuffer) {
     let fileMetadata = {
       name: i.name,
@@ -105,8 +116,10 @@ const uploadMultipleFile = async function (PathArrImageOrBuffer, IdFolder) {
     try {
       let respone = await task;
       ArrIdFielUploaded.push(respone.data.id);
+      // return MSG("Succesfully", "", ArrIdFielUploaded, "", "OK");
     } catch (e) {
-      return MSG("Failed To Upload File ", "", "", "NO");
+      throw e
+      // return MSG("Failed To Upload File ", "", "", "NO");
     }
   }
   return MSG("Upload File Succesfully", null, ArrIdFielUploaded, "OK");

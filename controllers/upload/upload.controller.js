@@ -6,16 +6,19 @@ const {
 
 const UploadController = {
   uploadSingleFile: async function (req, res, next) {
+
     const FileFromClient = req.file;
-    console.log(FileFromClient, FileFromClient.buffer);
-    const UserFound = await FindOneUser({
-      email: req.body.email,
-    });
-    console.log(UserFound.data);
+    console.log(FileFromClient);
+    // return res.json("123123")
+    // return res.json("klsjhdkljfksl")
+    // const UserFound = await FindOneUser({
+    //   email: req.body.email,
+    // });
+    // console.log(UserFound.data);
 
     const result = await UploadFileSingleFile(
       FileFromClient.buffer,
-      UserFound.data.folderId,
+      "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4",
       FileFromClient.originalname,
       FileFromClient.mimetype
     );
@@ -23,9 +26,9 @@ const UploadController = {
   },
   uploadMultipleFile: async function (req, res, next) {
     console.log(req.files);
-    const UserFound = await FindOneUser({
-      email: req.body.email,
-    });
+    // const UserFound = await FindOneUser({
+    //   email: req.body.email,
+    // });
     const Files = req.files;
 
     const ArrBuffer = Files.map((item, index) => {
@@ -36,10 +39,13 @@ const UploadController = {
       };
     });
     console.log(ArrBuffer);
-    const result = await uploadMultipleFile(ArrBuffer, UserFound.data.folderId);
+    const result = await uploadMultipleFile(ArrBuffer,  "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4");
     // res.json(ArrBuffer);
     res.json(result);
   },
+  uploadWithouCredential: async function (req, res, next) {
+
+  }
 };
 
 module.exports = UploadController;
