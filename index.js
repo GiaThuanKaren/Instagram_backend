@@ -9,7 +9,7 @@ app.use(express.json());
 
 const { V1Routes } = require("./routes/v1.routes.js");
 const { Connnection } = require("./conf/mongo.js");
-const { ConnectPrismaClient } = require("./utils/lib/prismadb.js");
+
 // ConnectPrismaClient()
 Connnection();
 
