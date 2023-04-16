@@ -47,14 +47,6 @@ const UploadFileSingleFile = async function (
     //   role:'reader',
     //   type:'anyone'
     // }
-  }, {
-    onUploadProgress: function (e) {
-
-      process.stdout.clearLine();
-      process.stdout.cursorTo(0);
-      process.stdout.write(e.bytesRead.toString());
-    },
-
   });
 
   try {
