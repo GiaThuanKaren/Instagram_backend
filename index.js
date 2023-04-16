@@ -4,7 +4,9 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}))
 const PORT = process.env.PORT || 5500;
-app.use(cors())
+app.use(cors({
+  allowedHeaders:"*"
+}))
 app.use(express.json());
 
 const { V1Routes } = require("./routes/v1.routes.js");
