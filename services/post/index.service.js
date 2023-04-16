@@ -17,7 +17,7 @@ const createNewPost = async function (
       descripttion: description,
       media: ArrayIdMedia.data,
     }).save();
-    return MSG("Created New Post Sucessfully", IdFolderDrive);
+    return MSG("Created New Post Sucessfully");
   } catch (e) {
     console.log(e);
     throw e;
