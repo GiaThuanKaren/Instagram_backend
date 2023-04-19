@@ -5,6 +5,9 @@ const Post = new Schema(
     title: { type: String, default: "default title" },
     descripttion: { type: String, default: "Default Desciiption" },
     media: { type: Array, default: [] },
+    reaction:{
+      type:Array,              
+    },
     authorid:{
       type : mongoose.Types.ObjectId,
       ref:"User"
@@ -15,5 +18,8 @@ const Post = new Schema(
     
   }
 );
+
+
+
 
 module.exports = mongoose.model("Post", Post);
