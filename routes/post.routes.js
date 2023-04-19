@@ -2,7 +2,7 @@ const express = require("express");
 const route = express.Router();
 const multer = require("multer");
 const upload = multer();
-
+const PostController = require("../controllers/post");
 let storage = multer.diskStorage({
   destination: (req, file, res) => {
     res(null, "./upload");
@@ -11,7 +11,9 @@ let storage = multer.diskStorage({
     res(null, file.originalname);
   },
 });
-const PostController = require("../controllers/post");
+
+route.get("/get_all_post", PostController.getAllPost)
+
 
 route.post(
   "/cr_new_post",

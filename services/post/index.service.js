@@ -4,6 +4,7 @@ const { uploadMultipleFile, DeleteFile } = require("../upload/upload.service");
 
 const createNewPost = async function (
   description,
+  authorId,
   ArrayBufferImage,
   IdFolderDrive
 ) {
@@ -16,6 +17,7 @@ const createNewPost = async function (
       title: "Default title",
       descripttion: description,
       media: ArrayIdMedia.data,
+      authorid: authorId
     }).save();
     return MSG("Created New Post Sucessfully");
   } catch (e) {
@@ -51,7 +53,7 @@ const updateUserPost = async function (
       OldMedia.forEach(async (item, index) => {
         await DeleteFile(item);
       });
-      let FilesUpdated= await uploadMultipleFile(ArrayMedia, "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4");
+      let FilesUpdated = await uploadMultipleFile(ArrayMedia, "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4");
       let PostUpdated = await Post.findByIdAndUpdate(
         IdPost,
         {
@@ -95,4 +97,15 @@ const delteUserPost = async function (IDPost) {
   }
 };
 
-module.exports = { createNewPost, updateUserPost, delteUserPost };
+
+
+const getAllPost = async function () {
+  try {
+    let GetAllPost = await Post.find();
+    return MSG("Done", null, GetAllPost);
+  } catch (error) {
+    throw error
+  }
+}
+
+module.exports = { getAllPost, createNewPost, updateUserPost, delteUserPost };
