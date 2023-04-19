@@ -101,7 +101,16 @@ const delteUserPost = async function (IDPost) {
 
 const getAllPost = async function () {
   try {
-    let GetAllPost = await Post.find();
+    let GetAllPost = await Post.aggregate([
+      {
+        $lookup: {
+          from: "User",
+          localField: "authorid",
+          foreignField: "_id",
+          as: "author"
+        }
+      },
+    ]).exec();
     return MSG("Done", null, GetAllPost);
   } catch (error) {
     throw error
