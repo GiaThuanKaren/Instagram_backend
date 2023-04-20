@@ -56,7 +56,7 @@ const updateUserPost = async function (
         await DeleteFile(item);
       });
       let FilesUpdated = await uploadMultipleFile(ArrayMedia, "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4");
-      let PostUpdated = await _findByIdAndUpdate(
+      let PostUpdated = await Post.findByIdAndUpdate(
         IdPost,
         {
           descripttion: description,
@@ -68,7 +68,7 @@ const updateUserPost = async function (
       );
       return MSG("Updated Post Sucessfully", PostUpdated);
     }
-    let PostUpdated = await _findByIdAndUpdate(
+    let PostUpdated = await Post.findByIdAndUpdate(
       IdPost,
       {
         descripttion: description,
@@ -85,7 +85,7 @@ const updateUserPost = async function (
 
 const delteUserPost = async function (IDPost) {
   try {
-    let PostFound = await findById(IDPost);
+    let PostFound = await Post.findById(IDPost);
 
     console.log(PostFound, IDPost);
     PostFound.media.forEach(async (item) => {
@@ -103,7 +103,7 @@ const delteUserPost = async function (IDPost) {
 
 const getAllPost = async function () {
   try {
-    let GetAllPost = await _aggregate([
+    let GetAllPost = await Post.aggregate([
       {
         $lookup: {
           from: "User",
@@ -115,6 +115,8 @@ const getAllPost = async function () {
     ]).exec();
     return MSG("Done", null, GetAllPost);
   } catch (error) {
+    console.log(error)
+
     throw error
   }
 }
@@ -131,9 +133,10 @@ const getAllUserPost = async function (id) {
     //   },
 
     // ]).exec();
-    let GetAllUserPost = await find({ authorid: id })
+    let GetAllUserPost = await Post.find({ authorid: id })
     return MSG("Done", null, GetAllUserPost)
   } catch (error) {
+    console.log(error)
     throw error
   }
 }
@@ -149,7 +152,7 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
       }).save();
       return NewComment;
     } else {
-      let NewCommentReplied = await findByIdAndUpdate(parentID, {
+      let NewCommentReplied = await Post.findByIdAndUpdate(parentID, {
         $addToSet: {
           replies: await new Comment({
             content: Message,
@@ -184,7 +187,7 @@ const getAllCommentInPost = async function (postId) {
       foreignField: "_id",
       as: "author"
     })
-    let result = await aggregate.exec();
+    let result = await Post.aggregate.exec();
     return MSG("", "Done", result)
   } catch (e) {
     console.log(e)
