@@ -4,6 +4,7 @@ const {
   updateUserPost,
   getAllPost,
   getAllUserPost,
+  insertNewComment,
 } = require("../../services/post/index.service");
 const MSG = require("../../utils/constant");
 
@@ -111,6 +112,19 @@ const PostController = {
   getCommentByIdParent: async function (req, res, next) {
     const BodyClient = req.body;
   },
+  insertNewComment: async function (req, res, next) {
+    const BodyClient = req["body"];
+    const IdPost = BodyClient["IDpost"];
+    const message = BodyClient["msg"];
+    const IdUserComment = BodyClient["IDUserComment"];
+    const ParentIdComment = BodyClient["parentIdComment"];
+    try {
+      let result = await insertNewComment(IdPost, IdUserComment, message, ParentIdComment)
+      return res.json(MSG("Done", null, result))
+    } catch (error) {
+      return res.json(MSG("Failded to insert new comment"))
+    }
+  }
 };
 
 module.exports = PostController;

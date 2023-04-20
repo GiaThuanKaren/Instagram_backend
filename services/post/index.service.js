@@ -1,3 +1,4 @@
+const Comment = require("../../models/Comment");
 const Post = require("../../models/Post");
 const MSG = require("../../utils/constant");
 const { uploadMultipleFile, DeleteFile } = require("../upload/upload.service");
@@ -129,13 +130,45 @@ const getAllUserPost = async function (id) {
     //   },
 
     // ]).exec();
-    let GetAllUserPost = await Post.find({authorid:id})
+    let GetAllUserPost = await Post.find({ authorid: id })
     return MSG("Done", null, GetAllUserPost)
   } catch (error) {
     throw error
   }
 }
 
+const insertNewComment = async function (IDPost, IDUserComment, Message, parentID = "") {
+  try {
+    if (parentID == "") {
+      let NewComment = await new Comment({
+        content: Message,
+        parentCommentID: "",
+        postId: IDPost,
+        authorId: IDUserComment
+      }).save();
+      return NewComment;
+    } else {
+      let NewCommentReplied = await Comment.findByIdAndUpdate(parentID, {
+        $addToSet: {
+          replies: await new Comment({
+            content: Message,
+            parentCommentID: parentID,
+            postId: IDPost,
+            authorId: IDUserComment
+          }).save()
+        }
+      }, {
+        new: true
+      })
+      return NewCommentReplied;
+    }
+  } catch (e) {
+    throw e
+  }
+
+}
 
 
-module.exports = { getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };
+
+
+module.exports = { insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };

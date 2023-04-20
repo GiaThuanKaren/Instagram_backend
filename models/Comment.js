@@ -1,12 +1,27 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Comment = new Schema({
-  parentId: { type: String, default: "" },
-  subparentId: { type: String, default: "" },
-  //   Reply: { type: Array, default: [] },
-  authorComment: { type: String, default: "" },
-  IdPost: { type: String },
-  TotalReply: { type: number, default: 0 },
+  content: {
+    type: String,
+    required: true
+  },
+  parentCommentID: {
+    type: String,
+    default: ""
+  },
+  postId: {
+    type: String,
+    require: true
+  },
+  authorId: {
+    type: mongoose.Types.ObjectId,
+    require: true,
+
+  },
+  replies: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment',
+  }]
 });
 
 module.exports = mongoose.model("Comment", Comment);
