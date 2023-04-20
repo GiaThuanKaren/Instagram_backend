@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const Comment = require("../../models/Comment");
 const Post = require("../../models/Post");
 const MSG = require("../../utils/constant");
@@ -55,7 +56,7 @@ const updateUserPost = async function (
         await DeleteFile(item);
       });
       let FilesUpdated = await uploadMultipleFile(ArrayMedia, "1mzDJKk-gIyZJ4vPm6sz3jeACqNye3cK4");
-      let PostUpdated = await Post.findByIdAndUpdate(
+      let PostUpdated = await _findByIdAndUpdate(
         IdPost,
         {
           descripttion: description,
@@ -67,7 +68,7 @@ const updateUserPost = async function (
       );
       return MSG("Updated Post Sucessfully", PostUpdated);
     }
-    let PostUpdated = await Post.findByIdAndUpdate(
+    let PostUpdated = await _findByIdAndUpdate(
       IdPost,
       {
         descripttion: description,
@@ -84,13 +85,13 @@ const updateUserPost = async function (
 
 const delteUserPost = async function (IDPost) {
   try {
-    let PostFound = await Post.findById(IDPost);
+    let PostFound = await findById(IDPost);
 
     console.log(PostFound, IDPost);
     PostFound.media.forEach(async (item) => {
       await DeleteFile(item);
     });
-    await Post.findByIdAndDelete(IDPost);
+    await findByIdAndDelete(IDPost);
     // let result =
     return MSG("Deleted Post");
   } catch (e) {
@@ -102,7 +103,7 @@ const delteUserPost = async function (IDPost) {
 
 const getAllPost = async function () {
   try {
-    let GetAllPost = await Post.aggregate([
+    let GetAllPost = await _aggregate([
       {
         $lookup: {
           from: "User",
@@ -130,7 +131,7 @@ const getAllUserPost = async function (id) {
     //   },
 
     // ]).exec();
-    let GetAllUserPost = await Post.find({ authorid: id })
+    let GetAllUserPost = await find({ authorid: id })
     return MSG("Done", null, GetAllUserPost)
   } catch (error) {
     throw error
@@ -148,7 +149,7 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
       }).save();
       return NewComment;
     } else {
-      let NewCommentReplied = await Comment.findByIdAndUpdate(parentID, {
+      let NewCommentReplied = await findByIdAndUpdate(parentID, {
         $addToSet: {
           replies: await new Comment({
             content: Message,
@@ -169,6 +170,28 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
 }
 
 
+const getAllCommentInPost = async function (postId) {
+  try {
+    let query = {
+      parentCommentID: "",
+      postId: postId
+    }
+    const aggregate = mongoose.model("Comment").aggregate();
+    aggregate.match(query)
+    aggregate.lookup({
+      from: "User",
+      localField: "authorId",
+      foreignField: "_id",
+      as: "author"
+    })
+    let result = await aggregate.exec();
+    return MSG("", "Done", result)
+  } catch (e) {
+    console.log(e)
+    throw e
+  }
+}
 
 
-module.exports = { insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };
+
+module.exports = { getAllCommentInPost, insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };

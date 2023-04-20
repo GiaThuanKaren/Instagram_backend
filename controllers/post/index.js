@@ -5,6 +5,7 @@ const {
   getAllPost,
   getAllUserPost,
   insertNewComment,
+  getAllCommentInPost,
 } = require("../../services/post/index.service");
 const MSG = require("../../utils/constant");
 
@@ -108,6 +109,14 @@ const PostController = {
   ,
   getAllCommentInPost: async function (req, res, next) {
     const BodyClient = req.body;
+    const postId = BodyClient["IDPost"]
+    try {
+      let result = await getAllCommentInPost(postId)
+      return res.json(result)
+    } catch (error) {
+      res.json(MSG("Error to get All comment in this post"))
+    }
+
   },
   getCommentByIdParent: async function (req, res, next) {
     const BodyClient = req.body;
