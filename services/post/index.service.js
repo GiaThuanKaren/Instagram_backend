@@ -117,4 +117,25 @@ const getAllPost = async function () {
   }
 }
 
-module.exports = { getAllPost, createNewPost, updateUserPost, delteUserPost };
+
+const getAllUserPost = async function (id) {
+  try {
+    console.log(id)
+    // let GetAllUserPost1 = await Post.aggregate([
+    //   {
+    //     $match: {
+    //       authorid:id
+    //     }
+    //   },
+
+    // ]).exec();
+    let GetAllUserPost = await Post.find({authorid:id})
+    return MSG("Done", null, GetAllUserPost)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+
+module.exports = { getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };

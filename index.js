@@ -15,7 +15,7 @@ const { Connnection } = require("./conf/mongo.js");
 // ConnectPrismaClient()
 Connnection();
 
-app.use("/api", V1Routes);
+app.use("/api", V1Routes);+
 app.listen(PORT, () => {
   console.log(`Listening at ${PORT} port`);
 });

@@ -3,6 +3,7 @@ const {
   delteUserPost,
   updateUserPost,
   getAllPost,
+  getAllUserPost,
 } = require("../../services/post/index.service");
 const MSG = require("../../utils/constant");
 
@@ -15,6 +16,9 @@ const PostController = {
       console.log(ListFiles);
       if (!ListFiles) {
         return res.json(MSG("Failed To Create Post . Updload File Failed"));
+      }
+      if (!BodyClient["authorId"]) {
+        return res.json(MSG("failed"))
       }
 
       const ArrBuffer = ListFiles?.map((item, index) => {
@@ -89,6 +93,15 @@ const PostController = {
     } catch (error) {
 
       return res.json(MSG("Failed To Get All Post , Please Refresh"));
+    }
+  },
+  getAllUserPost: async function (req, res, next) {
+    try {
+      const BodyClient = req.body;
+      let result = await getAllUserPost(BodyClient["authorId"])
+      return res.json(result)
+    } catch (error) {
+      throw error
     }
   }
   ,

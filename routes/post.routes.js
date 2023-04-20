@@ -14,6 +14,7 @@ let storage = multer.diskStorage({
 
 route.get("/get_all_post", PostController.getAllPost)
 
+route.post("/get_all_userpost", PostController.getAllUserPost)
 
 route.post(
   "/cr_new_post",
