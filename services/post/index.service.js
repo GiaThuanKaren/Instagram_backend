@@ -187,7 +187,7 @@ const getAllCommentInPost = async function (postId) {
       foreignField: "_id",
       as: "author"
     })
-    let result = await Post.aggregate.exec();
+    let result = await aggregate.exec();
     return MSG("", "Done", result)
   } catch (e) {
     console.log(e)
