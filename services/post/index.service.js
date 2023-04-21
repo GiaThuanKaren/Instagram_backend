@@ -195,6 +195,26 @@ const getAllCommentInPost = async function (postId) {
   }
 }
 
+const getRepliedComment = async function (postid, parentCommentID) {
+  try {
+    let query = {
+      parentCommentID: parentCommentID,
+      postId: postId
+    }
+    const aggregate = mongoose.model("Comment").aggregate();
+    aggregate.match(query)
+    aggregate.lookup({
+      from: "User",
+      localField: "authorId",
+      foreignField: "_id",
+      as: "author"
+    })
+    let result = await aggregate.exec();
+    return MSG("Done", "", result)
+  } catch (e) {
+    console.log(e)
+    throw e
+  }
+}
 
-
-module.exports = { getAllCommentInPost, insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };
+module.exports = { getRepliedComment, getAllCommentInPost, insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };
