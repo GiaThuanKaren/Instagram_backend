@@ -199,7 +199,7 @@ const getRepliedComment = async function (postid, parentCommentID) {
   try {
     let query = {
       parentCommentID: parentCommentID,
-      postId: postId
+      postId: postid
     }
     const aggregate = mongoose.model("Comment").aggregate();
     aggregate.match(query)
