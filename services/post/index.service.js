@@ -144,6 +144,7 @@ const getAllUserPost = async function (id) {
 const insertNewComment = async function (IDPost, IDUserComment, Message, parentID = "") {
   try {
     if (parentID == "") {
+      console.log("New Comment")
       let NewComment = await new Comment({
         content: Message,
         parentCommentID: "",
@@ -152,7 +153,8 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
       }).save();
       return NewComment;
     } else {
-      let NewCommentReplied = await Post.findByIdAndUpdate(parentID, {
+      console.log("Reply Comment")
+      let NewCommentReplied = await Comment.findByIdAndUpdate(parentID, {
         $addToSet: {
           replies: await new Comment({
             content: Message,

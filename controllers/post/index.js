@@ -138,6 +138,8 @@ const PostController = {
     const message = BodyClient["msg"];
     const IdUserComment = BodyClient["IDUserComment"];
     const ParentIdComment = BodyClient["parentIdComment"];
+    console.log(ParentIdComment)
+    
     try {
       let result = await insertNewComment(IdPost, IdUserComment, message, ParentIdComment)
       return res.json(MSG("Done", null, result))
