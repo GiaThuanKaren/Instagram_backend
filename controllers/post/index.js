@@ -7,6 +7,7 @@ const {
   insertNewComment,
   getAllCommentInPost,
   getRepliedComment,
+  HandleReaction,
 } = require("../../services/post/index.service");
 const MSG = require("../../utils/constant");
 
@@ -139,12 +140,24 @@ const PostController = {
     const IdUserComment = BodyClient["IDUserComment"];
     const ParentIdComment = BodyClient["parentIdComment"];
     console.log(ParentIdComment)
-    
+
     try {
       let result = await insertNewComment(IdPost, IdUserComment, message, ParentIdComment)
       return res.json(MSG("Done", null, result))
     } catch (error) {
       return res.json(MSG("Failded to insert new comment"))
+    }
+  },
+  handleReaction: async function (req, res, next) {
+    try {
+      const BodyClient = req["body"];
+      const IdPost = BodyClient["IDpost"];
+      const flag = BodyClient["Flag"];
+      const idUser = BodyClient["IdUser"]
+      let result = await HandleReaction(IdPost, idUser, flag)
+      return res.json(result)
+    } catch (error) {
+      return res.json(MSG("Error", e))
     }
   }
 };

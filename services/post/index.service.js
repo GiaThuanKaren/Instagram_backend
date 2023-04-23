@@ -219,4 +219,33 @@ const getRepliedComment = async function (postid, parentCommentID) {
   }
 }
 
-module.exports = { getRepliedComment, getAllCommentInPost, insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };
+const HandleReaction = async function (postID, userID, flag) {
+  try {
+    let result
+    if (flag == "INSERT") {
+      console.log("ninsert nEw")
+      result = await Post.findByIdAndUpdate(postID, {
+        $addToSet: {
+          reaction: userID
+        }
+      }, {
+        new: true
+      })
+    } else {
+      console.log("REMOVE")
+      result = await Post.findByIdAndUpdate(postID, {
+        $pull: {
+          reaction: userID
+        }
+      }, {
+        new: true
+      })
+    }
+    return MSG("Done", result)
+  } catch (e) {
+    throw e
+  }
+}
+
+
+module.exports = { HandleReaction, getRepliedComment, getAllCommentInPost, insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };

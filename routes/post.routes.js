@@ -18,7 +18,7 @@ route.get("/get_all_post", PostController.getAllPost)
 route.post("/cr_new_comment", PostController.insertNewComment)
 route.post("/get_all_cmt", PostController.getAllCommentInPost)
 route.post("/get_all_replied_cmt", PostController.getCommentByIdParent)
-
+route.post("/react_post",PostController.handleReaction)
 
 route.post("/get_all_userpost", PostController.getAllUserPost)
 
