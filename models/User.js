@@ -2,16 +2,25 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const User = new Schema(
   {
-    UserName: { type: String, require: true },
-    email: { type: String, require: true, unique: true },
-    foldername: { type: String, default: "" },
-    password: { type: String, default: "", require: true },
-    folderId: { type: String, default: "" },
-    key: { type: String, default: "" },
-  },
-  {
-    timestamps: true,
-    collection: "User",
+    "_id": {
+      "$oid": {
+        "type": "ObjectId"
+      }
+    },
+    "name": {
+      "type": "String"
+    },
+    "email": {
+      "type": "String"
+    },
+    "email_verified": {
+      "type": "Mixed"
+    },
+    "image": {
+      "type": "String"
+    }
+  },{
+    collection:"User"
   }
 );
 

@@ -3,6 +3,7 @@ const Comment = require("../../models/Comment");
 const Post = require("../../models/Post");
 const MSG = require("../../utils/constant");
 const { uploadMultipleFile, DeleteFile } = require("../upload/upload.service");
+const { SendMessage } = require("../nofitication");
 
 const createNewPost = async function (
   description,
@@ -151,6 +152,7 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
         postId: IDPost,
         authorId: IDUserComment
       }).save();
+      await SendMessage(IDUserComment, "", "")
       return NewComment;
     } else {
       console.log("Reply Comment")
@@ -166,6 +168,7 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
       }, {
         new: true
       })
+      await SendMessage(IDUserComment, "", parentID)
       return NewCommentReplied;
     }
   } catch (e) {
