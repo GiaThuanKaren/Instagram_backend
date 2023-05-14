@@ -152,7 +152,9 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
         postId: IDPost,
         authorId: IDUserComment
       }).save();
-      await SendMessage(IDUserComment, "", "")
+      let AuthorPost = await Post.findById(IDPost)
+      
+      await SendMessage(AuthorPost.authorid, "", "")
       return NewComment;
     } else {
       console.log("Reply Comment")
@@ -168,7 +170,8 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
       }, {
         new: true
       })
-      await SendMessage(IDUserComment, "", parentID)
+      let AuthorComment = await Comment.findById(parentID)
+      await SendMessage(AuthorComment.authorId, "", parentID)
       return NewCommentReplied;
     }
   } catch (e) {
