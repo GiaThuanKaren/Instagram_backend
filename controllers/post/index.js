@@ -8,6 +8,7 @@ const {
   getAllCommentInPost,
   getRepliedComment,
   HandleReaction,
+  searchUser,
 } = require("../../services/post/index.service");
 const MSG = require("../../utils/constant");
 
@@ -156,6 +157,19 @@ const PostController = {
       const idUser = BodyClient["IdUser"]
       let result = await HandleReaction(IdPost, idUser, flag)
       return res.json(result)
+    } catch (error) {
+      return res.json(MSG("Error", e))
+    }
+  },
+  searchUser : async function(req,res,next){
+    try {
+      const BodyClient = req["body"];
+      console.log(req.query.query)
+      const query =req.query.query
+      
+      // return await searchUser("klsjdf");
+      let result = await searchUser(query);
+      res.json(result)
     } catch (error) {
       return res.json(MSG("Error", e))
     }

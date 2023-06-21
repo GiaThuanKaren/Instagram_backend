@@ -4,6 +4,7 @@ const Post = require("../../models/Post");
 const MSG = require("../../utils/constant");
 const { uploadMultipleFile, DeleteFile } = require("../upload/upload.service");
 const { SendMessage } = require("../nofitication");
+const User = require("../../models/User");
 
 const createNewPost = async function (
   description,
@@ -153,7 +154,7 @@ const insertNewComment = async function (IDPost, IDUserComment, Message, parentI
         authorId: IDUserComment
       }).save();
       let AuthorPost = await Post.findById(IDPost)
-      
+
       await SendMessage(AuthorPost.authorid, "", "")
       return NewComment;
     } else {
@@ -251,7 +252,19 @@ const HandleReaction = async function (postID, userID, flag) {
   } catch (e) {
     throw e
   }
+
 }
 
 
-module.exports = { HandleReaction, getRepliedComment, getAllCommentInPost, insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };
+const searchUser = async function (textSearch) {
+  try {
+    const query = { name: { $regex: textSearch, $options: 'i' } };
+    let result = await User.find(query);
+    return MSG("Done", result)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+module.exports = { searchUser, HandleReaction, getRepliedComment, getAllCommentInPost, insertNewComment, getAllUserPost, getAllPost, createNewPost, updateUserPost, delteUserPost };
