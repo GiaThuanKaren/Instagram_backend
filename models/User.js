@@ -18,10 +18,15 @@ const User = new Schema(
     },
     "image": {
       "type": "String"
-    }
-  },{
-    collection:"User"
-  }
+    },
+    "following": [
+      {
+        "type": mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ]
+  }, {
+  collection: "User"
+}
 );
-
 module.exports = mongoose.model("User", User);

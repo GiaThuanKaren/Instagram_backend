@@ -188,6 +188,7 @@ const getAllCommentInPost = async function (postId) {
       parentCommentID: "",
       postId: postId
     }
+    console.log(query)
     const aggregate = mongoose.model("Comment").aggregate();
     aggregate.match(query)
     aggregate.lookup({
