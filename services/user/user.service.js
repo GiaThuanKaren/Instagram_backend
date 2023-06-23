@@ -1,3 +1,4 @@
+const Following = require("../../models/Following")
 const User = require("../../models/User")
 const MSG = require("../../utils/constant")
 
@@ -6,10 +7,16 @@ const UserService = {
         try {
             switch (ActionType) {
                 case "INSERT": {
-                    await User.findByIdAndUpdate(IdUser, {
+                    console.log("Follow")
+                    await Following.findOneAndUpdate({
+                        idUser: IdUser
+                    }, {
                         $addToSet: {
-                            following: IdUserRequest
+                            idUserFollowing: IdUserRequest
                         }
+                    }, {
+                        upsert: true,
+                        new: true
                     })
                     return MSG("Done");
 
@@ -17,9 +24,12 @@ const UserService = {
                 }
 
                 case "DELETE": {
-                    await User.findByIdAndUpdate(IdUser, {
+                    console.log("UnFollow")
+                    await Following.findOneAndUpdate({
+                        idUser: IdUser
+                    }, {
                         $pull: {
-                            following: IdUserRequest
+                            idUserFollowing: IdUserRequest
                         }
                     })
                     return MSG("Done");

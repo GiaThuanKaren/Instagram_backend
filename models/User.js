@@ -19,12 +19,9 @@ const User = new Schema(
     "image": {
       "type": "String"
     },
-    "following": [
-      {
-        "type": mongoose.Schema.Types.ObjectId,
-        ref: "User"
-      }
-    ]
+    "following": {
+      "type": Array
+    }
   }, {
   collection: "User"
 }
